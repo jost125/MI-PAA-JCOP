@@ -124,28 +124,15 @@ public class Knapsack extends BaseProblem implements StartingConfigurationProble
      * @throws ProblemFormatException if line format is invalid
      */
     protected void init(String line) throws ProblemFormatException {
-        StringTokenizer st = new StringTokenizer(line);
+        KnapsackTokenizer kt = new KnapsackTokenizer();
+		  KnapsackInstance knapsackInstance = kt.getKnapsackInstance(line);
 
-        try {
-            this.id = st.nextToken();
-            this.dimension = Integer.valueOf(st.nextToken());
-            this.capacity = Integer.valueOf(st.nextToken());
+        this.id = knapsackInstance.getId();
+        this.dimension = knapsackInstance.getDimension();
+        this.capacity = knapsackInstance.getCapacity();
 
-            this.knapsackItems = new ArrayList<KnapsackItem>(this.dimension);
-            for (int i = 0; i < dimension; i++) {
-                int weight = Integer.valueOf(st.nextToken());
-                int price = Integer.valueOf(st.nextToken());
-                this.knapsackItems.add(new KnapsackItem(i, weight, price));
-            }
-
-            if (st.hasMoreTokens())
-                throw new ProblemFormatException("Too many elements in line");
-        } catch (NoSuchElementException e) {
-            throw new ProblemFormatException("Insufficient number of elements in line");
-        } catch (NumberFormatException e) {
-            throw new ProblemFormatException("Non numeric elements found in line");
-        }
-
+        this.knapsackItems = knapsackInstance.getKnapsackItems();
+        
         this.addOperations = new ArrayList<AddOperation>(this.dimension);
         this.removeOperations = new ArrayList<RemoveOperation>(this.dimension);
         AddOperation addTmp;
