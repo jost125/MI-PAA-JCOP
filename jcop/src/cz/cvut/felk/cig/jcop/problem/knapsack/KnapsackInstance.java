@@ -61,4 +61,9 @@ public class KnapsackInstance {
 	public void setDimension(int dimension) {
 		this.dimension = dimension;
 	}
+
+	@Override
+	public String toString() {
+		return "id:" + id + ", dimension: " + dimension + ", capacity:" + capacity + ", items:" + knapsackItems;
+	}
 }

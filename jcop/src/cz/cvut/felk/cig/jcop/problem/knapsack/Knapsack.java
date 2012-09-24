@@ -13,7 +13,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 
 /**
@@ -115,24 +114,17 @@ public class Knapsack extends BaseProblem implements StartingConfigurationProble
         this.init(line);
     }
 
-    /**
-     * Init knapsack from one line of string. Expects format
-     * <p/>
-     * id dimension capacity weight1 price1 weight2 price2 ...  weightN priceN (all numeric)
-     *
-     * @param line string containing data to init this knapsack
-     * @throws ProblemFormatException if line format is invalid
-     */
-    protected void init(String line) throws ProblemFormatException {
-        KnapsackTokenizer kt = new KnapsackTokenizer();
-		  KnapsackInstance knapsackInstance = kt.getKnapsackInstance(line);
+    public Knapsack(KnapsackInstance knapsackInstance) {
+        this.setLabel("knapsackInstance=" + knapsackInstance);
 
+        this.init(knapsackInstance);
+    }
+	 
+    protected void init(KnapsackInstance knapsackInstance) {
         this.id = knapsackInstance.getId();
         this.dimension = knapsackInstance.getDimension();
         this.capacity = knapsackInstance.getCapacity();
-
         this.knapsackItems = knapsackInstance.getKnapsackItems();
-        
         this.addOperations = new ArrayList<AddOperation>(this.dimension);
         this.removeOperations = new ArrayList<RemoveOperation>(this.dimension);
         AddOperation addTmp;
@@ -152,6 +144,22 @@ public class Knapsack extends BaseProblem implements StartingConfigurationProble
         List<Integer> tmp = new ArrayList<Integer>(this.dimension);
         for (int i = 0; i < this.dimension; ++i) tmp.add(0);
         this.startingConfiguration = new Configuration(tmp, "Empty knapsack created");
+	 }
+
+
+    /**
+     * Init knapsack from one line of string. Expects format
+     * <p/>
+     * id dimension capacity weight1 price1 weight2 price2 ...  weightN priceN (all numeric)
+     *
+     * @param line string containing data to init this knapsack
+     * @throws ProblemFormatException if line format is invalid
+     */
+    protected void init(String line) throws ProblemFormatException {
+        KnapsackTokenizer kt = new KnapsackTokenizer();
+		  KnapsackInstance knapsackInstance = kt.getKnapsackInstance(line);
+
+        init(knapsackInstance);
     }
 
     public boolean isSolution(Configuration configuration) {

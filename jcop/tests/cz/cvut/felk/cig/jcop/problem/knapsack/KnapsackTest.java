@@ -79,6 +79,34 @@ public class KnapsackTest {
     }
 
     @Test
+    public void testInitFromKnapsackInstance() throws Exception {
+        KnapsackInstance knapsackInstance = new KnapsackInstance();
+		  knapsackInstance.setId("9000");
+		  knapsackInstance.setCapacity(100);
+		  knapsackInstance.setDimension(4);
+		  knapsackInstance.addKnapsackItem(new KnapsackItem(0, 18, 114));
+		  knapsackInstance.addKnapsackItem(new KnapsackItem(1, 42, 136));
+		  knapsackInstance.addKnapsackItem(new KnapsackItem(2, 88, 192));
+		  knapsackInstance.addKnapsackItem(new KnapsackItem(3, 3, 223));
+        Knapsack k = new Knapsack(knapsackInstance);
+        Fitness fit;
+        Configuration c;
+
+        c = k.getStartingConfiguration();
+        fit = k.getDefaultFitness();
+
+        OperationIterator it = k.getOperationIterator(c);
+        it.next();
+        it.next();
+        it.next();
+
+        Configuration c2 = it.next().execute(c);
+
+        assertEquals(fit.getValue(c), 0.0);
+        assertEquals(fit.getValue(c2), (double) k.getKnapsackItems().get(3).getPrice());
+    }
+
+    @Test
     public void testRandomConfiguration() throws Exception {
         Knapsack k = new Knapsack("9035 4 100 4 236 68 237 74 121 22 112");
 
