@@ -6,7 +6,7 @@ import java.util.StringTokenizer;
 
 public class BucketTokenizer {
 
-	public BucketInstance getKnapsackInstance(String line) {
+	public BucketInstance getBucketInstance(String line) {
 		StringTokenizer st = new StringTokenizer(line);
 		BucketInstance bucketInstance = new BucketInstance();
 
